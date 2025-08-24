@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { createNote } from "../../api/http";
+import { createNote } from "../api/http";
 
 import '../assets/CreateNote.css';
 
@@ -36,7 +36,7 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
 
         try {
             const res = await createNote({ message, expiresInMinutes: expiry });
-            setShareURL(res.url);
+            setShareURL(`${window.location.origin}/n/${res.id}`);
             setMessage('');
 
         } catch (error:any) {
@@ -45,7 +45,7 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
             setLoading(false);
         }
     };
-
+ 
     // copy link to clipboard
 
     const copyLink = async () => {
@@ -71,6 +71,7 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
                     <textarea 
                         placeholder="Enter your note here..."
                         value={message}
+                        onChange={(e) => setMessage(e.target.value)}
                         className="textarea"
                         rows={8}></textarea>
 
