@@ -1,69 +1,63 @@
-# React + TypeScript + Vite
+# 📝 Secure Notes (React + TypeScript + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for a secure one-time note app, built with Vite + React + TypeScript. It creates encrypted notes via the API and reads them once and Burns after reading.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ⭐Capabilities
 
-## Expanding the ESLint configuration
+**📝 Create Note:** textarea + expiry selector → calls API → shows shareable link.
+**🔥 Read Once:** opens /n/:id, fetches the note once, displays plaintext, then the link is useless.
+**⚠️ Error codes:**
+  - 404 not found/expired
+  - 500 generic network/server errors handled gracefully
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**📋 Copy link:** one‑click copy to clipboard.
+**🎯 Routing:** React Router with / (create) and /n/:id (read).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
+## 🏗️Structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+```
+src/
+├─ api/http.ts                            # API wrapper
+├─ assets/*.css                           # Styling
+├─ pages/ (CreateNote.tsx, ReadNote.tsx)  # Ppages
+├─ App.tsx                                # routes
+├─ main.tsx                               # entry point
+└─ Dockerfile
+```
+---
+## 🖇️API Integration
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**API URL:** uses VITE_API_BASE_URL for API Base url.
+**Guarded useEffect:** used to prevents double fetch (React StrictMode).
+**Endpoints:**
+- **POST /api/notes**  returns  ```{ id, url }```
+- **GET /api/notes/:id** returns  ```{ message }```
+
+---
+## 🌐Build and Serve
+In Docker, the app is built with Vite and served via Nginx.
+
+From inside privnotecloneClient folder:
+
+```bash
+# build image, tag it "privnote-web"
+docker build -t privnote-web .
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run it:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+docker run -p 8080:80 \
+  -e VITE_API_BASE_URL="http://localhost:3000" \
+  privnote-web
 ```
+
+---
+## ⚙️Technical Notes
+
+**🧱 Stack:** Vite + React + TypeScript
+**🧭 Routing:** React Router — ```/``` (CreateNote), ```/n/:id``` (ReadNote)
+**🔌 HTTP:** Minimal fetch wrapper in ```services/http.ts``` with JSON parsing and error mapping (adds status to errors)
+**⚙️ Config (.env):** ```VITE_API_BASE_URL``` for  API base (eg http://localhost:3000). Use '' for same‑origin calls behind a reverse proxy, then fetch('/api/...').
