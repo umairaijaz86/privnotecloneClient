@@ -5,6 +5,7 @@ import '../assets/CreateNote.css';
 
 type ExpiryOption = {label: string, value: number};
 
+//Expiration time options for the note
 const EXPIRY_OPTIONS: ExpiryOption[] = [
     { label: '5 minutes', value: 5 },
     { label: '1 hour', value: 60 },
@@ -22,6 +23,10 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
     const [error, setError] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
 
+    /**
+     * Determines if the note can be submitted based on the message content.
+     * The note can be submitted if the message is not empty after trimming whitespace.
+     */
     const canSubmit = useMemo(() => { return message.trim().length > 0}, [message, loading]);
 
     // Call the api on submit
@@ -35,8 +40,11 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
         setCopied(false);
 
         try {
+            // Call the API to create the note
             const res = await createNote({ message, expiresInMinutes: expiry });
+            // Set the share url
             setShareURL(`${window.location.origin}/n/${res.id}`);
+            // reset the message value
             setMessage('');
 
         } catch (error:any) {
@@ -47,7 +55,6 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
     };
  
     // copy link to clipboard
-
     const copyLink = async () => {
         if (!shareURL) return;
         try {
@@ -104,7 +111,7 @@ const EXPIRY_OPTIONS: ExpiryOption[] = [
                 )}
             </div>
             <p className="footerNote">
-                ⚠️ Anyone with the link can view the note exactly once. After that, it’s gone.
+                !! Anyone with the link can view the note exactly once. After that, it's gone.
             </p>
         </div>
     );

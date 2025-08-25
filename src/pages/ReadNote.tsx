@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { HttpError, readNote } from '../api/http';
 import '../assets/ReadNote.css';
 
+
+ // ReadNote component to fetch and displays a secure note based on the note ID
 export default function ReadNote() {
   // read the note ID from the URL like /n/abc123
   const { id } = useParams<{ id: string }>();
@@ -24,6 +26,7 @@ export default function ReadNote() {
     setMessage(null)
     setStatus(null)
   
+    // Immediately call the API to read the note
     ;(async () => {
       try {
         const res = await readNote(id)

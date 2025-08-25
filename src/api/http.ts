@@ -14,6 +14,7 @@ export type CreateNoteResponse = {
     url:string;
 };
 
+// The promised output model for reading a note
 export type ReadNoteResponse = { message: string };
 
 // Custom error shape so the UI can branch on status easily
@@ -56,7 +57,7 @@ export async function readNote(id: string): Promise<ReadNoteResponse> {
       headers: { 'Accept': 'application/json' }
     });
     
-    
+    // if the response is not successful then throw error
     if (!res.ok) {
       let msg = `Request failed with ${res.status}`;
       try {
