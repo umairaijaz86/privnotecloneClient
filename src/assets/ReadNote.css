@@ -1,0 +1,92 @@
+.read-container {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: #0b1220;
+    color: #e6e8eb;
+  }
+  
+  .read-card {
+    width: 100%;
+    max-width: 720px;
+    background: #101827;
+    border: 1px solid #1f2a44;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  }
+  
+  .read-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  .read-subtitle {
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+  
+  .read-status {
+    margin-top: 16px;
+    opacity: 0.9;
+  }
+  
+  .read-message {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #233252;
+    background: #0b1422;
+  }
+  
+  .read-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .read-pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #0f172a;
+    border: 1px solid #233252;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 0;
+  }
+  
+  .read-info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #bfe3bf;
+  }
+  
+  .read-error {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #2b132c;
+    border: 1px solid #7a2c3b;
+  }
+  
+  .read-error-text {
+    margin: 0;
+    color: #ffd5db;
+  }
+  
+  .read-actions {
+    margin-top: 16px;
+  }
+  
+  .read-button {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #3358ff;
+    background: #3b82f6;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  
